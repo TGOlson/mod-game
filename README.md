@@ -1,6 +1,6 @@
 # app-skelly
 
-Template for simple client-only applications. Configured for my preferences and getting started quickly.
+Template for simple client-only applications. Configured to get started quickly.
 
 Just run `npx webpack serve`.
 
