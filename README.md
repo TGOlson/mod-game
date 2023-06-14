@@ -10,6 +10,7 @@ Includes:
 * typescript
 * eslint
 * react
+* redux
 * joy ui (https://mui.com/joy-ui/getting-started/overview/)
 
-Does not include: routing, app state management (redux), or server setup.
+Does not include: routing, or server setup.
