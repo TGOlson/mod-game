@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { setLastTick } from './ticks-slice';
+import { applyTicks } from './ticks-slice';
 
 type State = {
   goldTotal: number;
@@ -7,8 +7,8 @@ type State = {
 };
 
 const initialState: State = {
-  goldTotal: 0, // todo: use localstorage 
-  goldRate: 1,
+  goldTotal: 0, // milli gold, divide by 1000 for display 
+  goldRate: 1000, // milli gold per second, 1 gold per second
 };
 
 export const ticksSlice = createSlice({
@@ -20,8 +20,8 @@ export const ticksSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(setLastTick, (state: State, action: PayloadAction<number>) => {
-      state.goldTotal += state.goldRate * (action.payload / 1000);
+    builder.addCase(applyTicks, (state: State, action: PayloadAction<number>) => {
+      state.goldTotal += state.goldRate * action.payload;
     });
   },
 });

@@ -6,7 +6,6 @@ import Button from '@mui/joy/Button';
 import Box from '@mui/joy/Box';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { setTickRate } from '../slices/ticks-slice';
 import { setGoldRate } from '../slices/gold-slice';
 
 const GoldDisplay = () => {
@@ -17,11 +16,11 @@ const GoldDisplay = () => {
   return (
       <Card variant='outlined' sx={{m: 2, gap: 2, width: 320}}>
         <Typography level='h3'>Gold!</Typography>
-        <Typography>Gold rate: {goldRate}</Typography>
-        <Typography>goldTotal: {goldTotal}</Typography>
+        <Typography>Rate: {goldRate / 1000} gold/tick</Typography>
+        <Typography>Gold: {goldTotal / 1000}</Typography>
         <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-          <Button size='sm' onClick={() => dispatch(setGoldRate(goldRate + 0.1))}>Faster gold</Button>
-          <Button size='sm' onClick={() => dispatch(setTickRate(goldRate - 0.1))}>Slower gold</Button>
+          <Button size='sm' onClick={() => dispatch(setGoldRate(goldRate + 100))}>Faster gold</Button>
+          <Button size='sm' onClick={() => dispatch(setGoldRate(goldRate - 100))}>Slower gold</Button>
         </Box>
       </Card>
   );

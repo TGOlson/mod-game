@@ -1,14 +1,12 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 type State = {
-  lastTick: number;
-  delta: number;
+  lastDelta: number;
   tickRate: number;
 };
 
 const initialState: State = {
-  lastTick: 0, // todo: use localstorage 
-  delta: 0,
+  lastDelta: 0,
   tickRate: 1000,
 };
 
@@ -16,9 +14,8 @@ export const ticksSlice = createSlice({
   name: 'ticks',
   initialState,
   reducers: {
-    setLastTick: (state: State, action: PayloadAction<number>) => {
-      state.delta = state.lastTick - action.payload;
-      state.lastTick = action.payload;
+    applyTicks: (state: State, action: PayloadAction<number>) => {
+      state.lastDelta = action.payload;
     },
     setTickRate: (state: State, action: PayloadAction<number>) => {
       state.tickRate = action.payload;
@@ -26,6 +23,6 @@ export const ticksSlice = createSlice({
   },
 });
 
-export const { setLastTick, setTickRate } = ticksSlice.actions;
+export const { applyTicks, setTickRate } = ticksSlice.actions;
 
 export default ticksSlice.reducer;
