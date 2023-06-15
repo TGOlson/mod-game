@@ -1,16 +1,17 @@
-# app-skelly
+# mod-game
 
-Template for simple client-only applications. Configured to get started quickly.
+Idle game
 
-Just run `npx webpack serve`.
+### dev
 
-Includes:
+Install deps
 
-* webpack
-* typescript
-* eslint
-* react
-* redux
-* joy ui (https://mui.com/joy-ui/getting-started/overview/)
+```
+$ npm install
+```
 
-Does not include: routing, or server setup.
+Serve app
+
+```
+$ npx webpack serve
+```

@@ -1,13 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { logger } from 'redux-logger';
+// import { logger } from 'redux-logger';
 
 import counterReducer from './slices/counter-slice';
+import ticksReducer from './slices/ticks-slice';
+import goldReducer from './slices/gold-slice';
 
 const store = configureStore({
   reducer: {
     counter: counterReducer,
+    ticks: ticksReducer,
+    gold: goldReducer,
   },
-  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
+  // Don't use logger for now, too noisy w/ ticks, maybe add back later w/ filter
+  // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
 });
 
 // Infer the `RootState` & `AppDispatch` types from the store
