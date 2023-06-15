@@ -1,18 +1,17 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import Button from '@mui/joy/Button';
 import Box from '@mui/joy/Box';
 
-import { RootState } from '../store';
 import { decrement, increment } from '../slices/counter-slice';
+import { useAppDispatch, useAppSelector } from '../hooks';
 
 
 const HelloWorld = () => {
-  const count = useSelector((state: RootState) => state.counter.value);
-  const dispatch = useDispatch();
+  const count = useAppSelector((state) => state.counter.value);
+  const dispatch = useAppDispatch();
 
   return (
       <Card variant='outlined' sx={{m: 2, gap: 2, width: 320, height: 300}}>

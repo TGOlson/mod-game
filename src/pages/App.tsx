@@ -3,14 +3,14 @@ import React from 'react';
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
 
-import Welcome from '../components/HelloWorld';
+import HelloWorld from '../components/HelloWorld';
 
 const App = () => {
   return (
     <CssVarsProvider>
       <CssBaseline />
       
-      <Welcome />
+      <HelloWorld />
     </CssVarsProvider>
   );
 };
