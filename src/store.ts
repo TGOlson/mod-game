@@ -1,18 +1,20 @@
 import { configureStore } from '@reduxjs/toolkit';
-// import { logger } from 'redux-logger';
+import { createLogger } from 'redux-logger';
 
-import counterReducer from './slices/counter-slice';
-import ticksReducer from './slices/ticks-slice';
+import ticksReducer, { applyTicks } from './slices/ticks-slice';
 import goldReducer from './slices/gold-slice';
+
+const logger = createLogger({
+  predicate: (_getState, action: {type: string}) => action.type !== applyTicks.type,
+});
 
 const store = configureStore({
   reducer: {
-    counter: counterReducer,
     ticks: ticksReducer,
     gold: goldReducer,
   },
   // Don't use logger for now, too noisy w/ ticks, maybe add back later w/ filter
-  // middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(logger)
 });
 
 export type AppStore = typeof store;
