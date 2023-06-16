@@ -6,12 +6,12 @@ import Button from '@mui/joy/Button';
 import Box from '@mui/joy/Box';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
-import { setTickRate } from '../slices/ticks-slice';
+import { setTickRate } from '../slices/game-slice';
 
 const TicksDisplay = () => {
   const dispatch = useAppDispatch();
 
-  const {tickRate} = useAppSelector((state) => state.ticks);
+  const tickRate = useAppSelector((state) => state.game.tickRate);
 
   return (
       <Card variant='outlined' sx={{m: 2, gap: 2, width: 320}}>
