@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Mod } from '../game/types';
-import { BASE_GOLD_RATE, calcGoldRate } from '../game/calc';
+import { BASE_GOLD_RATE, BASE_TICK_RATE, calcGoldRate, calcTickRate } from '../game/calc';
 
 
 type State = {
@@ -13,8 +13,13 @@ type State = {
 const initialState: State = {
   mods: [],
   goldTotal: 0, // milli gold, divide by 1000 for display 
-  goldRate: BASE_GOLD_RATE, // milli gold/second => 1 gold/second
-  tickRate: 1000,
+  goldRate: BASE_GOLD_RATE,
+  tickRate: BASE_TICK_RATE,
+};
+
+const updateGoldAndTickRates = (state: State) => {
+  state.goldRate = calcGoldRate(state.mods);
+  state.tickRate = calcTickRate(state.mods);
 };
 
 export const gameSlice = createSlice({
@@ -22,10 +27,9 @@ export const gameSlice = createSlice({
   initialState,
   reducers: {
     addMod: (state: State, action: PayloadAction<Mod>) => {
-      const goldRate = calcGoldRate(state.mods);
-
-      state.goldRate = goldRate;
       state.mods.push(action.payload);
+
+      updateGoldAndTickRates(state);
     },
     toggleModActive: (state: State, action: PayloadAction<number>) => {
       const mod = state.mods[action.payload];
@@ -34,21 +38,16 @@ export const gameSlice = createSlice({
 
       mod.active = !mod.active;
 
-      const goldRate = calcGoldRate(state.mods);
-      state.goldRate = goldRate;
+      updateGoldAndTickRates(state);
     },
     applyTicks: (state: State, action: PayloadAction<number>) => {
-      const goldRate = calcGoldRate(state.mods);
+      updateGoldAndTickRates(state);
 
-      state.goldRate = goldRate;
-      state.goldTotal += goldRate * action.payload;
-    },
-    setTickRate: (state: State, action: PayloadAction<number>) => {
-      state.tickRate = action.payload;
+      state.goldTotal += state.goldRate * action.payload;
     },
   }
 });
 
-export const { addMod, toggleModActive, applyTicks, setTickRate } = gameSlice.actions;
+export const { addMod, toggleModActive, applyTicks } = gameSlice.actions;
 
 export default gameSlice.reducer;

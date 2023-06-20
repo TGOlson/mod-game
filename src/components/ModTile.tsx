@@ -16,8 +16,8 @@ export type ModProps = {
 
 const modAttr = (attr: ModAttribute) => {
   switch (attr.type) {
-    case 'GOLD_RATE': return `+${attr.value / 1000} gold/tick`;
-    case 'TICK_RATE': return `+${attr.value / 1000} tick/sec`;
+    case 'GOLD_RATE': return `+${attr.value / 1000} gold per tick`;
+    case 'TICK_RATE': return `-${attr.value / 1000} seconds per tick`;
     // default: throw new Error(`Unknown attribute type: ${attr.type}`);
   } 
 };

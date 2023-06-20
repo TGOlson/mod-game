@@ -8,5 +8,5 @@ export type ModAttribute = {
 export type Mod = {
   name: string;
   active: boolean;
-  attrs: [ModAttribute]
+  attrs: ModAttribute[];
 };
