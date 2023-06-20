@@ -4,7 +4,6 @@ import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 
 import { useAppSelector } from '../hooks';
-import { Box } from '@mui/joy';
 
 const GoldDisplay = () => {
   const {goldRate, goldTotal, tickRate} = useAppSelector((state) => state.game);

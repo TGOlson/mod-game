@@ -16,8 +16,10 @@ export type ModProps = {
 
 const modAttr = (attr: ModAttribute) => {
   switch (attr.type) {
-    case 'GOLD_RATE': return `+${attr.value / 1000} gold per tick`;
-    case 'TICK_RATE': return `-${attr.value / 1000} seconds per tick`;
+    case 'FLAT_GOLD_RATE': return `+${attr.value / 1000} gold per tick`;
+    case 'PERCENT_GOLD_RATE': return `+${attr.value}% gold per tick`;
+    case 'FLAT_TICK_RATE': return `-${attr.value / 1000} seconds per tick`;
+    case 'PERCENT_TICK_RATE': return `-${attr.value}% seconds per tick`;
     // default: throw new Error(`Unknown attribute type: ${attr.type}`);
   } 
 };
@@ -37,7 +39,7 @@ const ModTile = ({index, mod}: ModProps) => {
         <Typography>{name}</Typography>
         <List size='sm'>
           {attrs.map((attr, index) => (
-            <ListItem key={index}>{modAttr(attr)}</ListItem>
+            attr ? <ListItem key={index}>{modAttr(attr)}</ListItem> : null
           ))}
         </List>
       </Card>
