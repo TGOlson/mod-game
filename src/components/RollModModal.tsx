@@ -15,13 +15,12 @@ type RollModModalProps = {
 
 const RollModModal = ({open, mod, onClose}: RollModModalProps) => {
   return (
-    <Modal open={open} onClose={() => onClose(false)}>
+    <Modal open={open}>
       <ModalDialog
         layout="center"
         size="md"
         variant="outlined"
       >
-        <ModalClose />
         <Typography>You rolled a new mod!</Typography>
         <Box sx={{mt: 2, gap: 2, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
           <ModTile index={-1} mod={mod} />

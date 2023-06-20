@@ -1,4 +1,4 @@
-import { Mod, ModAttribute, ModAttributeType } from "./types";
+import { AttributeId, Mod, ModAttribute } from "./types";
 
 export const rollMod = (level: number): Mod => {
   const attr1 = rollAttr(level);
@@ -13,27 +13,84 @@ export const rollMod = (level: number): Mod => {
 };
 
 const rollAttr = (level: number): ModAttribute => {
-  const modType = attrTypes[randInt(0, attrTypes.length - 1)];
+  const spec = attributeSpecs[randInt(0, attributeSpecs.length - 1)];
 
-  if (!modType) throw new Error('Unexpected error: no mod type');
+  if (!spec) throw new Error('Unexpected error: no mod type');
+  
+  // TODO: think there is a bug here where this will only find level 1 ranges
+  const range = spec.ranges.find(range => range.minLevel <= level);
 
-  const [min, max] = attrRanges(modType, level);
-  const value = randInt(min, max);
+  if (!range) throw new Error('Unexpected error: no mod range');
+  
+  // const [min, max] = attrRanges(spec, level);
+  const value = randInt(range.minValue, range.maxValue);
 
-  return {type: modType, value};
-};
-
-const attrTypes: ModAttributeType[] = ['FLAT_TICK_RATE', 'PERCENT_TICK_RATE', 'FLAT_GOLD_RATE', 'PERCENT_GOLD_RATE'];
-
-const attrRanges = (type: ModAttributeType, _level: number): [number, number] => {
-  switch (type) {
-    case 'FLAT_TICK_RATE': return [100, 1000];
-    case 'PERCENT_TICK_RATE': return [5, 50];
-    case 'FLAT_GOLD_RATE': return [100, 1000];
-    case 'PERCENT_GOLD_RATE': return [5, 50];
-  }
+  return {
+    id: spec.id,
+    name: spec.name,
+    prefix: spec.prefix,
+    value,
+  };
 };
 
 const randInt = (min: number, max: number): number => {
   return Math.floor(Math.random() * (max - min + 1) ) + min;
 };
+
+export type AttributeRange = {
+  minLevel: number;
+  minValue: number;
+  maxValue: number;
+};
+
+export type AttributeSpec = {
+  id: AttributeId;
+  name: string;
+  prefix: boolean;
+  ranges: AttributeRange[];
+  resolution: number;
+  frequency: 1 | 2 | 3;
+};
+
+const attributeSpecs: AttributeSpec[] = [
+  {
+    id: 'TICK_FLAT',
+    name: 'Speed',
+    prefix: false,
+    ranges: [
+      {minLevel: 1, minValue: 1, maxValue: 100},
+    ],
+    resolution: 1,
+    frequency: 1,
+  },
+  {
+    id: 'TICK_RATE',
+    name: 'Quick',
+    prefix: true,
+    ranges: [
+      {minLevel: 1, minValue: 5, maxValue: 50},
+    ],
+    resolution: 1,
+    frequency: 1,
+  },
+  {
+    id: 'GOLD_FLAT',
+    name: 'Rich',
+    prefix: true,
+    ranges: [
+      {minLevel: 1, minValue: 100, maxValue: 1000},
+    ],
+    resolution: 1,
+    frequency: 1,
+  },
+  {
+    id: 'GOLD_RATE',
+    name: 'Wealth',
+    prefix: false,
+    ranges: [
+      {minLevel: 1, minValue: 5, maxValue: 50},
+    ],
+    resolution: 1,
+    frequency: 1,
+  }
+];

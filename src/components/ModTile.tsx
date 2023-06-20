@@ -15,11 +15,11 @@ export type ModProps = {
 };
 
 const modAttr = (attr: ModAttribute) => {
-  switch (attr.type) {
-    case 'FLAT_GOLD_RATE': return `+${attr.value / 1000} gold per tick`;
-    case 'PERCENT_GOLD_RATE': return `+${attr.value}% gold per tick`;
-    case 'FLAT_TICK_RATE': return `-${attr.value / 1000} seconds per tick`;
-    case 'PERCENT_TICK_RATE': return `-${attr.value}% seconds per tick`;
+  switch (attr.id) {
+    case 'GOLD_RATE': return `+${attr.value}% gold rate`;
+    case 'GOLD_FLAT': return `+${attr.value / 1000} gold rate`;
+    case 'TICK_RATE': return `-${attr.value}% tick length`;
+    case 'TICK_FLAT': return `-${attr.value / 1000} tick length`;
     // default: throw new Error(`Unknown attribute type: ${attr.type}`);
   } 
 };

@@ -6,7 +6,7 @@ export const calcGoldRate = (mods: Mod[]): number => {
   const activeMods = mods.filter(mod => mod.active);
 
   const attrs = activeMods.map(mod => mod.attrs).flat().filter(notNull);
-  const goldRateAttrs = attrs.filter(attr => attr.type === 'FLAT_GOLD_RATE');
+  const goldRateAttrs = attrs.filter(attr => attr.id === 'GOLD_FLAT');
 
   const flatGoldRateAttrs = goldRateAttrs.map(x => x.value);
 
@@ -19,7 +19,7 @@ export const calcTickRate = (mods: Mod[]): number => {
   const activeMods = mods.filter(mod => mod.active);
 
   const attrs = activeMods.map(mod => mod.attrs).flat().filter(notNull);
-  const tickRateAttrs = attrs.filter(attr => attr.type === 'FLAT_TICK_RATE');
+  const tickRateAttrs = attrs.filter(attr => attr.id === 'TICK_FLAT');
 
   const flatTickRateAttrs = tickRateAttrs.map(x => x.value);
 

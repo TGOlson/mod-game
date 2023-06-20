@@ -11,30 +11,10 @@ import ModStash from '../components/ModStash';
 import { addMod } from '../slices/game-slice';
 import { Mod } from '../game/types';
 import Shop from '../components/Shop';
+import { rollMod } from '../game/mod';
 
 const initialMods: Mod[] =
-  [{
-    name: 'Mod of Wealth',
-    active: true,
-    attrs: [{
-      type: 'FLAT_GOLD_RATE',
-      value: 100
-    }, null, null],
-  }, {
-    name: 'Mod of Riches',
-    active: false,
-    attrs: [{
-      type: 'PERCENT_GOLD_RATE',
-      value: 20
-    }, null, null],
-  }, {
-    name: 'Mod of Speed',
-    active: false,
-    attrs: [{
-      type: 'FLAT_TICK_RATE',
-      value: 100
-    }, null, null],
-  }];
+  [rollMod(1), rollMod(1), rollMod(1), rollMod(1), rollMod(1)];
 
 const App = () => {
 
