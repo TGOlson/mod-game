@@ -5,7 +5,7 @@ export const rollMod = (): Mod => {
   const prefix = randInt(1, 10) === 10 ? rollAttr(prefixAttributes) : null;
   const adjective = prefix && randInt(1, 10) === 10 ? rollAttr(adjectiveAttributes) : null;
 
-  const name = `${prefix ? prefix.name + ' ' : ''}Mod of ${adjective ? ' ' + adjective.name : ''}${base.name}`;
+  const name = `${prefix ? prefix.name + ' ' : ''}Mod of ${adjective ? adjective.name + ' ' : ''}${base.name}`;
 
   return {
     name,
@@ -44,13 +44,13 @@ const baseAttributes: AttributeSpec[] = [
     target: 'TICK_FLAT',
     type: 'BASE',
     name: 'Haste',
-    values: [100]
+    values: [50, 100]
   },
   {
     target: 'TICK_RATE',
     type: 'BASE',
     name: 'Speed',
-    values: [10, 20, 30, 40, 50]
+    values: [1, 2, 3]
   },
   {
     target: 'GOLD_FLAT',
@@ -71,7 +71,7 @@ const prefixAttributes: AttributeSpec[] = [
     target: 'TICK_RATE',
     type: 'PREFIX',
     name: 'Timely',
-    values: [5, 10, 15, 20]
+    values: [1, 2, 3]
   },
   {
     target: 'GOLD_FLAT',
@@ -92,7 +92,7 @@ const adjectiveAttributes: AttributeSpec[] = [
     target: 'TICK_RATE',
     type: 'ADJECTIVE',
     name: 'Efficient',
-    values: [5, 10, 15, 20]
+    values: [1, 2, 3]
   },
   {
     target: 'GOLD_FLAT',

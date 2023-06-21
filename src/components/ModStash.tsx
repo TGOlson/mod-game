@@ -2,10 +2,10 @@ import React from 'react';
 
 import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
+import Box from '@mui/joy/Box';
 
 import { useAppSelector } from '../hooks';
 import ModTile from './ModTile';
-import { Box } from '@mui/joy';
 
 const ModStash = () => {
   const mods = useAppSelector((state) => state.game.mods);

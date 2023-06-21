@@ -27,7 +27,11 @@ export const calcTickRate = (mods: Mod[]): number => {
   
   // flat first, then rate
   // TODO: rounding
-  return (BASE_GOLD_RATE + flatAdjustment) * (1 + (rateAdjustment / 100));
+  return (BASE_GOLD_RATE - flatAdjustment) * (1 - (rateAdjustment / 100));
+};
+
+export const calcModCost = (modsRolled: number): number => {
+  return (1 + modsRolled * modsRolled) * 1000;
 };
 
 const activeAttrs = (mods: Mod[]) => {
