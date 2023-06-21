@@ -15,7 +15,7 @@ const Shop = () => {
   const [tempMod, setTempMod] = React.useState<Mod | null>(null);
 
   const openModal = () => {
-    const mod = rollMod(1);
+    const mod = rollMod();
     setTempMod(mod);
     setModalOpen(true);
   };

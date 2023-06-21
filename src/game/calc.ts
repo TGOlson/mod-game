@@ -3,29 +3,37 @@ import { Mod } from "./types";
 export const BASE_GOLD_RATE = 1000; // milli gold/sec => 1 gold/sec
 
 export const calcGoldRate = (mods: Mod[]): number => {
-  const activeMods = mods.filter(mod => mod.active);
+  const attrs = activeAttrs(mods);
+  const flatAttrs = attrs.filter(attr => attr.target === 'GOLD_FLAT');
+  const rateAttrs = attrs.filter(attr => attr.target === 'GOLD_RATE');
 
-  const attrs = activeMods.map(mod => mod.attrs).flat().filter(notNull);
-  const goldRateAttrs = attrs.filter(attr => attr.id === 'GOLD_FLAT');
-
-  const flatGoldRateAttrs = goldRateAttrs.map(x => x.value);
-
-  return flatGoldRateAttrs.reduce((acc, val) => acc + val, BASE_GOLD_RATE);
+  const flatAdjustment = flatAttrs.reduce((acc, {value}) => acc + value, 0);
+  const rateAdjustment = rateAttrs.reduce((acc, {value}) => acc + value, 0);
+  
+  // flat first, then rate
+  // TODO: rounding
+  return (BASE_GOLD_RATE + flatAdjustment) * (1 + (rateAdjustment / 100));
 };
 
 export const BASE_TICK_RATE = 1000; // 1 tick/sec
 
 export const calcTickRate = (mods: Mod[]): number => {
-  const activeMods = mods.filter(mod => mod.active);
+  const attrs = activeAttrs(mods);
+  const flatAttrs = attrs.filter(attr => attr.target === 'TICK_FLAT');
+  const rateAttrs = attrs.filter(attr => attr.target === 'TICK_RATE');
 
-  const attrs = activeMods.map(mod => mod.attrs).flat().filter(notNull);
-  const tickRateAttrs = attrs.filter(attr => attr.id === 'TICK_FLAT');
+  const flatAdjustment = flatAttrs.reduce((acc, {value}) => acc + value, 0);
+  const rateAdjustment = rateAttrs.reduce((acc, {value}) => acc + value, 0);
+  
+  // flat first, then rate
+  // TODO: rounding
+  return (BASE_GOLD_RATE + flatAdjustment) * (1 + (rateAdjustment / 100));
+};
 
-  const flatTickRateAttrs = tickRateAttrs.map(x => x.value);
-
-  // TODO: this could go to a weird negative value if you have enough flat mods
-  // should adjust to maybe only make 1 or two mods flat, and the rest % based
-  return flatTickRateAttrs.reduce((acc, val) => acc - val, BASE_TICK_RATE);
+const activeAttrs = (mods: Mod[]) => {
+  return mods
+    .filter(mod => mod.active)
+    .map(mod => mod.attrs).flat().filter(notNull);
 };
 
 function notNull<T>(x: T | null): x is T {

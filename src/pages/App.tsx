@@ -14,7 +14,7 @@ import Shop from '../components/Shop';
 import { rollMod } from '../game/mod';
 
 const initialMods: Mod[] =
-  [rollMod(1), rollMod(1), rollMod(1), rollMod(1), rollMod(1)];
+  [rollMod(), rollMod(), rollMod(), rollMod(), rollMod()];
 
 const App = () => {
 
