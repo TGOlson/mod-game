@@ -18,7 +18,7 @@ export type AttributeSpec = {
   target: AttributeTarget;
   type: AttributeType
   name: string;
-  values: number[];
+  values: {level: number, value: number}[];
 };
 
 export type Mod = {

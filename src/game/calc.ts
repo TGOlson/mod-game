@@ -7,17 +7,18 @@ export const calcGoldRate = (mods: Mod[]): number => {
   const attrs = activeAttrs(mods);
   const flatAttrs = attrs.filter(attr => attr.target === 'GOLD_FLAT');
   const rateAttrs = attrs.filter(attr => attr.target === 'GOLD_RATE');
-  const chance10XAttrs = attrs.filter(attr => attr.target === 'GOLD_10X_CHANCE');
+  // const chance10XAttrs = attrs.filter(attr => attr.target === 'GOLD_10X_CHANCE');
 
   const flatAdjustment = flatAttrs.reduce((acc, {value}) => acc + value, 0);
-  const rateAdjustment = rateAttrs.reduce((acc, {value}) => acc + value, 0);
-  const chance10XAdjustment = chance10XAttrs.reduce((acc, {value}) => acc + value, 0);
 
-  const multiplier = randInt(1, 100) <= chance10XAdjustment ? 10 : 1;
+
+  // const rateAdjustment = rateAttrs.reduce((acc, {value}) => acc + value, 0);
   
+  return rateAttrs.reduce((acc, {value}) => acc * (1 + (value / 100)), BASE_GOLD_RATE + flatAdjustment);
+
   // flat first, then rate
   // TODO: rounding
-  return (BASE_GOLD_RATE + flatAdjustment) * (1 + (rateAdjustment / 100)) * multiplier;
+  // return (BASE_GOLD_RATE + flatAdjustment) * (1 + (rateAdjustment / 100));
 };
 
 // todo: delete, unused

@@ -2,9 +2,9 @@ import { randInt } from "../util";
 import { AttributeSpec, Mod, Attribute } from "./types";
 
 export const rollMod = (level: number): Mod => {
-  const base = rollAttr(baseAttributes);
-  const prefix = randInt(1, 5) === 5 ? rollAttr(prefixAttributes) : null;
-  const adjective = prefix && randInt(1, 5) === 5 ? rollAttr(adjectiveAttributes) : null;
+  const base = rollAttr(level, baseAttributes);
+  const prefix = randInt(1, 5) === 5 ? rollAttr(level, prefixAttributes) : null;
+  const adjective = prefix && randInt(1, 5) === 5 ? rollAttr(level, adjectiveAttributes) : null;
 
   const name = `${prefix ? prefix.name + ' ' : ''}Mod of ${adjective ? adjective.name + ' ' : ''}${base.name}`;
 
@@ -16,21 +16,24 @@ export const rollMod = (level: number): Mod => {
   };
 };
 
-const rollAttr = (specs: AttributeSpec[]): Attribute => {
+const rollAttr = (level: number, specs: AttributeSpec[]): Attribute => {
   const spec = specs[randInt(0, specs.length - 1)];
 
   if (!spec) throw new Error('Unexpected index error');
   
   // TODO: think about how to handle differences per level
-  const value = spec.values[randInt(0, spec.values.length - 1)];
+  const possibleValues = spec.values.filter(v => v.level <= level);
 
-  if (!value) throw new Error('Unexpected index error');
+  // TODO: some attrs should only be available at high levels (eg. not all should have a lvl 1 value)
+  const roll = possibleValues[randInt(0, possibleValues.length - 1)];
+
+  if (!roll) throw new Error(`Unexpected error: unable to find value for ${spec.name} at level ${level}`);
 
   return {
     target: spec.target,
     type: spec.type,
     name: spec.name,
-    value,
+    value: roll.value,
   };
 };
 
@@ -41,13 +44,31 @@ const baseAttributes: AttributeSpec[] = [
     target: 'GOLD_FLAT',
     type: 'BASE',
     name: 'Riches',
-    values: [1000, 1500, 2000, 2500, 3000],
+    values: [
+      {level: 1, value: 1000}, 
+      {level: 1, value: 1500},
+      {level: 1, value: 2000},
+      {level: 1, value: 2500},
+      {level: 1, value: 3000},
+      {level: 2, value: 4000},
+      {level: 3, value: 5000},
+      {level: 5, value: 7500}
+    ],
   },
   {
     target: 'GOLD_RATE',
     type: 'BASE',
     name: 'Wealth',
-    values: [50, 75, 100, 125, 150]
+    values: [
+      {level: 1, value: 10}, 
+      {level: 1, value: 20},
+      {level: 1, value: 30},
+      {level: 1, value: 40},
+      {level: 1, value: 50},
+      {level: 2, value: 75},
+      {level: 3, value: 100},
+      {level: 5, value: 150}
+    ],
   }
 ];
 
@@ -62,13 +83,23 @@ const prefixAttributes: AttributeSpec[] = [
     target: 'GOLD_FLAT',
     type: 'PREFIX',
     name: 'Lavish',
-    values: [1000, 1500, 2000],
+    values: [
+      {level: 1, value: 1000}, 
+      {level: 1, value: 1500},
+      {level: 1, value: 2000},
+      {level: 5, value: 5000}
+    ],
   },
   {
     target: 'GOLD_RATE',
     type: 'PREFIX',
     name: 'Elaborate',
-    values: [25, 50, 75]
+    values: [
+      {level: 1, value: 10}, 
+      {level: 1, value: 15},
+      {level: 1, value: 20},
+      {level: 5, value: 50}
+    ],
   }
 ];
 
@@ -77,13 +108,23 @@ const adjectiveAttributes: AttributeSpec[] = [
     target: 'GOLD_FLAT',
     type: 'ADJECTIVE',
     name: 'Luxurious',
-    values: [1000, 1500, 2000],
+    values: [
+      {level: 1, value: 1000}, 
+      {level: 1, value: 1500},
+      {level: 1, value: 2000},
+      {level: 5, value: 5000}
+    ],
   },
   {
     target: 'GOLD_RATE',
     type: 'ADJECTIVE',
     name: 'Opulent',
-    values: [25, 50, 75]
+    values: [
+      {level: 1, value: 10}, 
+      {level: 1, value: 15},
+      {level: 1, value: 20},
+      {level: 5, value: 50}
+    ],
   }
 ];
 
