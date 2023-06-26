@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { createLogger } from 'redux-logger';
 
-import gameReducer, { applyTicks } from './slices/game-slice';
+import gameReducer, { applyDelta } from './slices/game-slice';
 
 const logger = createLogger({
-  predicate: (_getState, action: {type: string}) => action.type !== applyTicks.type,
+  predicate: (_getState, action: {type: string}) => action.type !== applyDelta.type,
 });
 
 const store = configureStore({

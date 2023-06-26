@@ -1,4 +1,4 @@
-import { applyTicks } from "../slices/game-slice";
+import { applyDelta } from "../slices/game-slice";
 import { AppStore } from "../store";
 
 export const runGameLoop = (store: AppStore) => {
@@ -6,19 +6,13 @@ export const runGameLoop = (store: AppStore) => {
   let frameId = 0;
 
   const loop = (ts: number) => {
-    const tickRate = store.getState().game.tickRate;
-
     if(lastTs === 0) lastTs = ts;
 
     const deltaMs = ts - lastTs;
-    const deltaTicks = Math.floor(deltaMs / tickRate);
-    
-    if (deltaTicks > 0) {
-      // console.log('Applying ticks:', deltaTicks);
-      store.dispatch(applyTicks(deltaTicks));
-      lastTs = ts;
-    }
-  
+
+    store.dispatch(applyDelta(deltaMs));
+    lastTs = ts;
+
     frameId = requestAnimationFrame(loop);
   };
 

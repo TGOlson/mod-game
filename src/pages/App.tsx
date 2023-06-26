@@ -12,10 +12,10 @@ import { addMod } from '../slices/game-slice';
 import { Mod } from '../game/types';
 import Shop from '../components/Shop';
 import { rollMod } from '../game/mod';
-import StatsDisplay from '../components/StatsDisplay';
+// import StatsDisplay from '../components/StatsDisplay';
 
 const initialMods: Mod[] =
-  [rollMod(), rollMod(), rollMod(), rollMod(), rollMod()];
+  [rollMod(1), rollMod(1), rollMod(1), rollMod(1), rollMod(1)];
 
 const App = () => {
 
@@ -32,7 +32,7 @@ const App = () => {
       <CssBaseline />
       
       <Box sx={{display: 'flex'}}>
-        <StatsDisplay />
+        {/* <StatsDisplay /> */}
         <GoldDisplay />
         <Shop />
       </Box>

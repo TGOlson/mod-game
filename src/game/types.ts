@@ -1,4 +1,10 @@
-export type AttributeTarget = 'TICK_FLAT' | 'TICK_RATE' | 'GOLD_RATE' | 'GOLD_FLAT';
+export type AttributeTarget 
+  = 'TICK_FLAT' // unused
+  | 'TICK_RATE' // unused
+  | 'GOLD_RATE' 
+  | 'GOLD_FLAT'
+  | 'GOLD_10X_CHANCE'; // unused
+
 export type AttributeType = 'BASE' | 'PREFIX' | 'ADJECTIVE';
 
 export type Attribute = {
@@ -18,5 +24,6 @@ export type AttributeSpec = {
 export type Mod = {
   name: string;
   active: boolean;
+  level: number;
   attrs: [Attribute, Attribute | null, Attribute | null];
 };

@@ -1,14 +1,16 @@
+import { randInt } from "../util";
 import { AttributeSpec, Mod, Attribute } from "./types";
 
-export const rollMod = (): Mod => {
+export const rollMod = (level: number): Mod => {
   const base = rollAttr(baseAttributes);
-  const prefix = randInt(1, 10) === 10 ? rollAttr(prefixAttributes) : null;
-  const adjective = prefix && randInt(1, 10) === 10 ? rollAttr(adjectiveAttributes) : null;
+  const prefix = randInt(1, 5) === 5 ? rollAttr(prefixAttributes) : null;
+  const adjective = prefix && randInt(1, 5) === 5 ? rollAttr(adjectiveAttributes) : null;
 
   const name = `${prefix ? prefix.name + ' ' : ''}Mod of ${adjective ? adjective.name + ' ' : ''}${base.name}`;
 
   return {
     name,
+    level,
     active: false,
     attrs: [base, prefix, adjective],
   };
@@ -32,79 +34,56 @@ const rollAttr = (specs: AttributeSpec[]): Attribute => {
   };
 };
 
-const randInt = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1) ) + min;
-};
-
-
 const baseAttributes: AttributeSpec[] = [
   // TODO: this is a fun mod, but probably need to limit to one per game
   // multiple could lead to negative tick rates
   {
-    target: 'TICK_FLAT',
-    type: 'BASE',
-    name: 'Haste',
-    values: [50, 100]
-  },
-  {
-    target: 'TICK_RATE',
-    type: 'BASE',
-    name: 'Speed',
-    values: [1, 2, 3]
-  },
-  {
     target: 'GOLD_FLAT',
     type: 'BASE',
     name: 'Riches',
-    values: [500, 1000, 1500, 2000],
+    values: [1000, 1500, 2000, 2500, 3000],
   },
   {
     target: 'GOLD_RATE',
     type: 'BASE',
     name: 'Wealth',
-    values: [10, 20, 30, 40, 50]
+    values: [50, 75, 100, 125, 150]
   }
 ];
 
 const prefixAttributes: AttributeSpec[] = [
-  {
-    target: 'TICK_RATE',
-    type: 'PREFIX',
-    name: 'Timely',
-    values: [1, 2, 3]
-  },
+  // {
+  //   target: 'GOLD_10X_CHANCE',
+  //   type: 'PREFIX',
+  //   name: 'Lucky',
+  //   values: [10, 20, 30]
+  // },
   {
     target: 'GOLD_FLAT',
     type: 'PREFIX',
     name: 'Lavish',
-    values: [500, 1000],
+    values: [1000, 1500, 2000],
   },
   {
     target: 'GOLD_RATE',
     type: 'PREFIX',
     name: 'Elaborate',
-    values: [5, 10, 15, 20]
+    values: [25, 50, 75]
   }
 ];
 
 const adjectiveAttributes: AttributeSpec[] = [
   {
-    target: 'TICK_RATE',
-    type: 'ADJECTIVE',
-    name: 'Efficient',
-    values: [1, 2, 3]
-  },
-  {
     target: 'GOLD_FLAT',
     type: 'ADJECTIVE',
     name: 'Luxurious',
-    values: [500, 1000],
+    values: [1000, 1500, 2000],
   },
   {
     target: 'GOLD_RATE',
     type: 'ADJECTIVE',
     name: 'Opulent',
-    values: [5, 10, 15, 20]
+    values: [25, 50, 75]
   }
 ];
 
