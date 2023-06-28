@@ -38,15 +38,21 @@ export const calcGoldRate = (mods: Mod[]): number => {
 // };
 
 export const calcLevel = (goldLifetime: number): number => {
-  return Math.max(Math.floor(Math.sqrt(Math.floor(goldLifetime / 1000)) * 0.1), 1);
+  // gold = 5^lvl * 100
+  // lvl = log5(gold / 100)
+  return Math.max(Math.floor(Math.log(goldLifetime / 100 / 1000) / Math.log(5)) + 1, 1);
+};
+
+export const calcGoldRequiredForLevel = (level: number): number => {
+  return Math.pow(5, level - 1) * 100 * 1000;
 };
 
 export const calcModCost = (modsRolled: number): number => {
-  return (1 + modsRolled * modsRolled) * 1000;
+  return Math.floor((1 + Math.pow(modsRolled, 1.5)) * 1000);
 };
 
 export const calcAdditionalActiveCost = (maxModsActive: number): number => {
-  return (maxModsActive - 2) * (maxModsActive - 2) * 500000;
+  return Math.pow(maxModsActive - 2, 2) * 1000 * 1000;
 };
 
 const activeAttrs = (mods: Mod[]) => {
