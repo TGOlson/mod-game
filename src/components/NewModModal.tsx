@@ -32,8 +32,8 @@ const NewModModal = ({open, mod, onClose}: NewModModalProps) => {
         </Box>
         <Divider inset='none' sx={{mt: 4}}/>
         <Box sx={{mt: 2, gap: 1, display: 'flex',  flexDirection: { xs: 'column', sm: 'row-reverse' }}}>
-          <Button onClick={() => onClose(true)}>Add to Stash</Button>
-          <Button variant='outlined' color='danger' onClick={() => onClose(false)}>Discard</Button>
+          <Button onClick={() => onClose(true)}>Add to Stash (Enter)</Button>
+          <Button variant='outlined' color='danger' onClick={() => onClose(false)}>Discard (D)</Button>
         </Box>
       </ModalDialog>
     </Modal>

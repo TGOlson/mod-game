@@ -44,11 +44,13 @@ export const calcLevel = (goldLifetime: number): number => {
 };
 
 export const calcGoldRequiredForLevel = (level: number): number => {
+  if (level === 1) return 0;
+
   return Math.pow(5, level - 1) * 100 * 1000;
 };
 
 export const calcModCost = (modsRolled: number): number => {
-  return Math.floor((1 + Math.pow(modsRolled, 1.5)) * 1000);
+  return Math.floor((1 + Math.pow(modsRolled, 1.2))) * 1000;
 };
 
 export const calcAdditionalActiveCost = (maxModsActive: number): number => {

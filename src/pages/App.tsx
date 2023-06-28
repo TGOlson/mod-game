@@ -12,7 +12,7 @@ import { addMod } from '../slices/game-slice';
 import { Mod } from '../game/types';
 import Shop from '../components/Shop';
 import { rollMod } from '../game/mod';
-// import StatsDisplay from '../components/StatsDisplay';
+import { handleKeyPress } from '../game/keypress-handlers';
 
 const initialMods: Mod[] =
   [rollMod(1), rollMod(1), rollMod(1), rollMod(1), rollMod(1)];
@@ -24,6 +24,7 @@ const App = () => {
   useEffect(() => {
     initialMods.forEach(mod => store.dispatch(addMod(mod)));
 
+    handleKeyPress(store);
     return runGameLoop(store);
   }, []);
 
@@ -31,12 +32,13 @@ const App = () => {
     <CssVarsProvider>
       <CssBaseline />
       
-      <Box sx={{display: 'flex'}}>
-        {/* <StatsDisplay /> */}
+      <Box sx={{display: 'flex', m: 2, mb: 0, gap: 2}}>
         <GoldDisplay />
         <Shop />
       </Box>
-      <ModStash />
+      <Box sx={{display: 'flex', m: 2, flexGrow: 1, overflow: 'auto'}}>
+        <ModStash />
+      </Box>
     </CssVarsProvider>
   );
 };

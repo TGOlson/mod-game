@@ -48,8 +48,7 @@ const baseAttributes: AttributeSpec[] = [
       {level: 1, value: 1000}, 
       {level: 1, value: 1500},
       {level: 1, value: 2000},
-      {level: 1, value: 2500},
-      {level: 1, value: 3000},
+      {level: 2, value: 3000},
       {level: 2, value: 4000},
       {level: 3, value: 5000},
       {level: 5, value: 7500}
@@ -63,8 +62,8 @@ const baseAttributes: AttributeSpec[] = [
       {level: 1, value: 10}, 
       {level: 1, value: 20},
       {level: 1, value: 30},
-      {level: 1, value: 40},
-      {level: 1, value: 50},
+      {level: 2, value: 40},
+      {level: 2, value: 50},
       {level: 2, value: 75},
       {level: 3, value: 100},
       {level: 5, value: 150}
@@ -86,7 +85,7 @@ const prefixAttributes: AttributeSpec[] = [
     values: [
       {level: 1, value: 1000}, 
       {level: 1, value: 1500},
-      {level: 1, value: 2000},
+      {level: 2, value: 2000},
       {level: 5, value: 5000}
     ],
   },
@@ -97,7 +96,7 @@ const prefixAttributes: AttributeSpec[] = [
     values: [
       {level: 1, value: 10}, 
       {level: 1, value: 15},
-      {level: 1, value: 20},
+      {level: 2, value: 20},
       {level: 5, value: 50}
     ],
   }
@@ -111,7 +110,7 @@ const adjectiveAttributes: AttributeSpec[] = [
     values: [
       {level: 1, value: 1000}, 
       {level: 1, value: 1500},
-      {level: 1, value: 2000},
+      {level: 2, value: 2000},
       {level: 5, value: 5000}
     ],
   },
@@ -122,7 +121,7 @@ const adjectiveAttributes: AttributeSpec[] = [
     values: [
       {level: 1, value: 10}, 
       {level: 1, value: 15},
-      {level: 1, value: 20},
+      {level: 2, value: 20},
       {level: 5, value: 50}
     ],
   }

@@ -12,11 +12,11 @@ const ModStash = () => {
   const activeMods = mods.filter(m => m.active);
 
   return (
-    <Card variant='outlined' sx={{m: 2, gap: 0.5, flexGrow: 1}}>
+    <Card variant='outlined' sx={{gap: 0.5, flexGrow: 1}}>
       <Typography level='h3'>Mods</Typography>
       <Typography>Total: {mods.length}</Typography>
       <Typography>Active: {activeMods.length} of {maxModsActive}</Typography>
-      <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5}}>
+      <Box sx={{display: 'flex', flexWrap: 'wrap', gap: 0.5, overflowY: 'scroll'}}>
         {mods.map((mod, index) => <ModTile key={index} index={index} mod={mod} />)}
       </Box>
     </Card>

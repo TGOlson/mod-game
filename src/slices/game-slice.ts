@@ -13,7 +13,7 @@ type State = {
   goldTotal: number;
   goldLifetime: number;
   goldRate: number;
-  // tickRate: number;
+  rollModModalOpen: boolean;
 };
 
 const initialState: State = {
@@ -25,6 +25,7 @@ const initialState: State = {
   goldTotal: 0, // milli gold, divide by 1000 for display 
   goldLifetime: 0, 
   goldRate: BASE_GOLD_RATE,
+  rollModModalOpen: false,
   // tickRate: BASE_TICK_RATE,
 };
 
@@ -44,26 +45,27 @@ export const gameSlice = createSlice({
       state.mods.push(action.payload);
       updateGoldRate(state);
     },
-    rollTempMod: (state: State) => {
+    openRollModModal: (state: State) => {
       state.goldTotal -= calcModCost(state.modsRolled);
 
       const level = calcLevel(state.goldLifetime);
+      state.tempMod = Game.rollMod(level);
 
       state.modsRolled += 1;
-      state.tempMod = Game.rollMod(level);
+      state.rollModModalOpen = true;
     },
-    saveTempMod: (state: State) => {
-      if (!state.tempMod) throw new Error('No temp mod to save');
+    closeRollModModal: (state: State, action: PayloadAction<boolean>) => {
+      if (!state.tempMod) throw new Error('Unexpected error: no temp mod while trying to close modal');  
 
-      state.mods.push(state.tempMod);
+      const saveTempMod = action.payload;
+
+      if (saveTempMod) {
+        state.mods.push(state.tempMod);
+        updateGoldRate(state);
+      }
+      
       state.tempMod = null;
-
-      updateGoldRate(state);
-    },
-    discardTempMod: (state: State) => {
-      if (!state.tempMod) throw new Error('No temp mod to discard');
-
-      state.tempMod = null;
+      state.rollModModalOpen = false;
     },
     toggleModActive: (state: State, action: PayloadAction<number>) => {
       const mod = state.mods[action.payload];
@@ -82,7 +84,6 @@ export const gameSlice = createSlice({
     applyDelta: (state: State, action: PayloadAction<number>) => {
       updateGoldRate(state);
 
-      // debugger;
       const goldDelta = Math.floor(state.goldRate * action.payload / 1000);
       state.goldTotal += goldDelta;
       state.goldLifetime += goldDelta;
@@ -90,6 +91,10 @@ export const gameSlice = createSlice({
   }
 });
 
-export const { addMod, rollTempMod, saveTempMod, discardTempMod, toggleModActive, incMaxModActive, applyDelta } = gameSlice.actions;
+export const canRollNewMod = (state: State) => {
+  return !state.rollModModalOpen && state.goldTotal >= calcModCost(state.modsRolled);
+};
+
+export const { addMod, openRollModModal, closeRollModModal, toggleModActive, incMaxModActive, applyDelta } = gameSlice.actions;
 
 export default gameSlice.reducer;
