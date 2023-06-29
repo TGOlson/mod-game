@@ -8,9 +8,11 @@ export const rollMod = (level: number): Mod => {
 
   const name = `${prefix ? prefix.name + ' ' : ''}Mod of ${adjective ? adjective.name + ' ' : ''}${base.name}`;
 
+  const modLevel = Math.max(base.level, prefix?.level ?? 0, adjective?.level ?? 0);
+
   return {
     name,
-    level,
+    level: modLevel,
     active: false,
     attrs: [base, prefix, adjective],
   };
@@ -33,6 +35,7 @@ const rollAttr = (level: number, specs: AttributeSpec[]): Attribute => {
     target: spec.target,
     type: spec.type,
     name: spec.name,
+    level: roll.level,
     value: roll.value,
   };
 };

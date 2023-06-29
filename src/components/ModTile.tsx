@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { SyntheticEvent } from 'react';
 
 import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import ListItem from '@mui/joy/ListItem';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/joy/IconButton';
 
-import { toggleModActive } from '../slices/game-slice';
+import { deleteMod, toggleModActive } from '../slices/game-slice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { Mod, Attribute } from '../game/types';
+import { Box, CardContent, CardOverflow, Divider } from '@mui/joy';
 
 
 export type ModProps = {
@@ -25,6 +28,8 @@ const modAttr = (attr: Attribute) => {
   }
 };
 
+const emptyBox = (x: number) => <Box sx={{width: x, height: x}} />;
+
 const ModTile = ({index, mod}: ModProps) => {
   const {name, level, active, attrs} = mod;
 
@@ -33,7 +38,7 @@ const ModTile = ({index, mod}: ModProps) => {
   const {mods, maxModsActive} = useAppSelector((state) => state.game);
 
 
-  const onClick = () => {
+  const onTileClick = () => {
     // if index is undefined, this is a temp mod, so just do nothing on click
     // todo: maybe for a cleaner way to specifcy temp mods from the shop
     const isTempMod = index === undefined;
@@ -44,18 +49,42 @@ const ModTile = ({index, mod}: ModProps) => {
     dispatch(toggleModActive(index));
   };
 
+  const onDeleteClick = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    if (index) dispatch(deleteMod(index));
+  };
+
   return (
       <Card 
         variant='outlined' 
-        sx={{m: 0.5, gap: 0.5, width: 150, height: 150, borderWidth: active ? 2 : 1}} 
+        sx={{m: 0.5, width: 150, height: 150, color: active ? '#addbff' : undefined, borderWidth: active ? 2 : 1}} 
         color={active ? 'primary' : undefined}
-        onClick={onClick}
+        onClick={onTileClick}
       >
-        <Typography level='body2'>{name}</Typography>
-        <Typography level='body3'>Level {level}</Typography>
-        {attrs.map((attr, index) => (
-          attr ? <ListItem key={index}><Typography level='body3'>{modAttr(attr)}</Typography></ListItem> : null
-        ))}
+        <CardContent>
+          <Typography level='body2'>{name}</Typography>
+          {attrs.map((attr, index) => (
+            attr ? <ListItem key={index}><Typography level='body3'>{modAttr(attr)}</Typography></ListItem> : null
+            ))}
+        </CardContent>
+        <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
+          <Divider inset="context" />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: '-8px' }}>
+            <Typography level="body3">Level {level}</Typography>
+            {index === undefined 
+              ? emptyBox(28) 
+              : <IconButton 
+                  variant="plain" 
+                  size='sm' 
+                  sx={{"--IconButton-size": '28px'}} 
+                  onClick={onDeleteClick}
+                  color="neutral"
+                >
+                  <DeleteIcon />
+                </IconButton>
+            }
+          </Box>
+        </CardOverflow>
       </Card>
   );
 };

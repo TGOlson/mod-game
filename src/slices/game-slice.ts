@@ -45,6 +45,10 @@ export const gameSlice = createSlice({
       state.mods.push(action.payload);
       updateGoldRate(state);
     },
+    deleteMod: (state: State, action: PayloadAction<number>) => {
+      state.mods.splice(action.payload, 1);
+      updateGoldRate(state);
+    },
     openRollModModal: (state: State) => {
       state.goldTotal -= calcModCost(state.modsRolled);
 
@@ -95,6 +99,6 @@ export const canRollNewMod = (state: State) => {
   return !state.rollModModalOpen && state.goldTotal >= calcModCost(state.modsRolled);
 };
 
-export const { addMod, openRollModModal, closeRollModModal, toggleModActive, incMaxModActive, applyDelta } = gameSlice.actions;
+export const { addMod, deleteMod, openRollModModal, closeRollModModal, toggleModActive, incMaxModActive, applyDelta } = gameSlice.actions;
 
 export default gameSlice.reducer;

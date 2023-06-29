@@ -6,8 +6,14 @@
 * general path might be -> first ~10 rolls really constrain values (eg. 50-150% gain, then open them up a bit more)
 * rolling mods after a couple upgrades feels less useful, def need scaling modifiers here
 
-### notes from playing for a bit
+### notes from playing for a bit (6/26)
 * increase in active mods doesn't scale in cost quick enough (too cheap by 6 or 7 active)
 * roll might get too expensive too quick (eg. early game should be rolling ~constantly)
 * mods scroll off screen quick, implement tiny view and scroll bar
 * level go crazy too fast (eg. one level every 30s once at 10 active)
+
+### notes from playing for a bit (6/28)
+* levels scale well now
+* starting game maybe a litttlleee slow, but gets into +1 active and +1 level pretty quick
+* mods need to look more fun
+* active mod cost doesn't scale quick enough, should maybe 10x? after first +2 active it starts going too fast

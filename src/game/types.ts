@@ -11,6 +11,7 @@ export type Attribute = {
   target: AttributeTarget;
   type: AttributeType
   name: string;
+  level: number;
   value: number;
 };
 
