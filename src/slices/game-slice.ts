@@ -12,7 +12,11 @@ type State = {
   modsRolled: number;
   goldTotal: number;
   goldLifetime: number;
-  goldRate: number;
+  goldRate: {
+    flatIncrease: number;
+    percentIncrease: number;
+    rate: number;
+  };
   rollModModalOpen: boolean;
 };
 
@@ -24,14 +28,17 @@ const initialState: State = {
   modsRolled: 0,
   goldTotal: 0, // milli gold, divide by 1000 for display 
   goldLifetime: 0, 
-  goldRate: BASE_GOLD_RATE,
+  goldRate: {
+    flatIncrease: 0,
+    percentIncrease: 0,
+    rate: BASE_GOLD_RATE
+  },
   rollModModalOpen: false,
   // tickRate: BASE_TICK_RATE,
 };
 
 const updateGoldRate = (state: State) => {
   state.goldRate = calcGoldRate(state.mods);
-  // state.tickRate = calcTickRate(state.mods);
 };
 
 export const gameSlice = createSlice({
@@ -88,7 +95,7 @@ export const gameSlice = createSlice({
     applyDelta: (state: State, action: PayloadAction<number>) => {
       updateGoldRate(state);
 
-      const goldDelta = Math.floor(state.goldRate * action.payload / 1000);
+      const goldDelta = Math.floor(state.goldRate.rate * action.payload / 1000);
       state.goldTotal += goldDelta;
       state.goldLifetime += goldDelta;
     },

@@ -51,7 +51,7 @@ const ModTile = ({index, mod}: ModProps) => {
 
   const onDeleteClick = (e: SyntheticEvent) => {
     e.stopPropagation();
-    if (index) dispatch(deleteMod(index));
+    if (index !== undefined) dispatch(deleteMod(index));
   };
 
   return (

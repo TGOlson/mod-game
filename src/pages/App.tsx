@@ -13,6 +13,7 @@ import { Mod } from '../game/types';
 import Shop from '../components/Shop';
 import { rollMod } from '../game/mod';
 import { handleKeyPress } from '../game/keypress-handlers';
+import StatsDisplay from '../components/StatsDisplay';
 
 const initialMods: Mod[] =
   [rollMod(1), rollMod(1), rollMod(1), rollMod(1), rollMod(1)];
@@ -33,6 +34,7 @@ const App = () => {
       <CssBaseline />
       
       <Box sx={{display: 'flex', m: 2, mb: 0, gap: 2}}>
+        <StatsDisplay />
         <GoldDisplay />
         <Shop />
       </Box>

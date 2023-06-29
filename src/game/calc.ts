@@ -1,24 +1,32 @@
-import { randInt } from "../util";
+// import { randInt } from "../util";
 import { Mod } from "./types";
 
 export const BASE_GOLD_RATE = 1000; // 1000 milli-gold/sec => 1 gold/sec
 
-export const calcGoldRate = (mods: Mod[]): number => {
+export type GoldRateStats = {
+  base: number;
+  flatIncrease: number;
+  percentIncrease: number;
+  rate: number;
+};
+
+export const calcGoldRate = (mods: Mod[]): GoldRateStats => {
+  // TODO: multiple loops are used here
+  // this is fine for now, but with lots of mods/attrs could lead to some slowness
+  // should be able to refactor this to be a single big loop...
   const attrs = activeAttrs(mods);
   const flatAttrs = attrs.filter(attr => attr.target === 'GOLD_FLAT');
   const rateAttrs = attrs.filter(attr => attr.target === 'GOLD_RATE');
-  // const chance10XAttrs = attrs.filter(attr => attr.target === 'GOLD_10X_CHANCE');
 
-  const flatAdjustment = flatAttrs.reduce((acc, {value}) => acc + value, 0);
+  const flatIncrease = flatAttrs.reduce((acc, {value}) => acc + value, 0);
+  const percentIncrease = rateAttrs.reduce((acc, {value}) => acc * (1 + (value / 100)), 1);
 
-
-  // const rateAdjustment = rateAttrs.reduce((acc, {value}) => acc + value, 0);
-  
-  return rateAttrs.reduce((acc, {value}) => acc * (1 + (value / 100)), BASE_GOLD_RATE + flatAdjustment);
-
-  // flat first, then rate
-  // TODO: rounding
-  // return (BASE_GOLD_RATE + flatAdjustment) * (1 + (rateAdjustment / 100));
+  return {
+    base: BASE_GOLD_RATE,
+    flatIncrease,
+    percentIncrease,
+    rate: BASE_GOLD_RATE + flatIncrease * percentIncrease,
+  };
 };
 
 // todo: delete, unused
@@ -54,7 +62,7 @@ export const calcModCost = (modsRolled: number): number => {
 };
 
 export const calcAdditionalActiveCost = (maxModsActive: number): number => {
-  return Math.pow(maxModsActive - 2, 2) * 1000 * 1000;
+  return Math.pow(5, maxModsActive - 3) * 500 * 1000;
 };
 
 const activeAttrs = (mods: Mod[]) => {
