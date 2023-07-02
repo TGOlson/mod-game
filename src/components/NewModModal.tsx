@@ -28,7 +28,7 @@ const NewModModal = ({open, mod, onClose}: NewModModalProps) => {
         <Typography sx={{mt: 0.5}} level='body3'>Mod attributes are random. If this mod looks useful, you can keep it and add it to your stash. If it's no good, discard it and roll another!</Typography>
         <Divider sx={{mt: 1}} inset="none" />
         <Box sx={{mt: 4, gap: 2, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-          <ModTile mod={mod} />
+          <ModTile expanded mod={mod} />
         </Box>
         <Divider inset='none' sx={{mt: 4}}/>
         <Box sx={{mt: 2, gap: 1, display: 'flex',  flexDirection: { xs: 'column', sm: 'row-reverse' }}}>
