@@ -11,6 +11,7 @@ import { deleteMod, toggleModActive } from '../slices/game-slice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { Mod, Attribute } from '../game/types';
 import { Box, CardContent, CardOverflow, Divider } from '@mui/joy';
+import { SxProps } from '@mui/joy/styles/types';
 
 
 export type ModProps = {
@@ -47,49 +48,11 @@ const minimizedModTile = (mod: Mod, onTileClick: () => void) => {
       </CardOverflow>
       <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
         <Divider inset="context" />
-        <Typography level="body4">lvl{level}</Typography>
+        <Typography level="body4" sx={{ml: '-4px'}}>lvl{level}</Typography>
       </CardOverflow>
     </Card>
   );
 };
-
-const expandedModTile = (mod: Mod, onTileClick: () => void, onDeleteClick?: (e: SyntheticEvent) => void) => {
-  const {name, level, active, attrs} = mod;
-
-  return (
-    <Card 
-      variant='outlined' 
-      sx={{zIndex: 100, mt: -3, ml: -3, width: 125, height: 125, color: active ? '#addbff' : undefined, borderWidth: active ? 2 : 1, position: 'absolute'}}
-      color={active ? 'primary' : undefined}
-      onClick={onTileClick}
-    >
-      <CardContent >
-        <Typography level='body3' fontWeight='md'>{name}</Typography>
-        {attrs.map((attr, index) => (
-          attr ? <ListItem key={index}><Typography level='body3'>{modAttr(attr)} gps</Typography></ListItem> : null
-        ))}
-      </CardContent>
-      <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
-        <Divider inset="context" />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: '-8px' }}>
-          <Typography level="body4">lvl{level}</Typography>
-        {onDeleteClick
-          ? <IconButton 
-              variant="plain" 
-              size='sm' 
-              sx={{"--IconButton-size": '28px'}} 
-              onClick={onDeleteClick}
-              color="neutral"
-            >
-              <DeleteIcon />
-            </IconButton>
-          : emptyBox(28) 
-        }
-        </Box>
-      </CardOverflow>
-    </Card>
-);
-}
 
 const emptyBox = (x: number) => <Box sx={{width: x, height: x}} />;
 
@@ -115,13 +78,49 @@ const ModTile = ({expanded, index, mod}: ModProps) => {
     if (index !== undefined) dispatch(deleteMod(index));
   };
 
+  const {name, level, active, attrs} = mod;
+  
+  const largeCard = expanded ?? hovered;
+  const isHovered = hovered && !expanded;
+
+  const cardStyle: SxProps = {
+    zIndex: isHovered ? 100 : undefined, 
+    width: largeCard ? 125 : 75, 
+    height: largeCard ? 125 : 75, 
+    m: largeCard ? undefined : 0.5,
+    mt: isHovered ? -3 : undefined, 
+    ml: isHovered ? -3 : undefined, 
+    position: isHovered ? 'absolute' : undefined, 
+    color: active ? '#addbff' : undefined, 
+    borderWidth: active ? 2 : 1, 
+  };
+
+  const deleteIcon = isHovered 
+    ? (
+      <IconButton variant="plain" size='sm' sx={{"--IconButton-size": '28px'}} onClick={onDeleteClick} color="neutral">
+        <DeleteIcon />
+      </IconButton>
+    ) : (expanded ? emptyBox(28) : null);
+
   return (
     <Box sx={{width: expanded ? undefined : 83, height: expanded ? undefined : 83}} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-      {(expanded || hovered) ? expandedModTile(mod, onTileClick, onDeleteClick) : minimizedModTile(mod, onTileClick)}
+      <Card variant='outlined' sx={cardStyle} color={active ? 'primary' : undefined} onClick={onTileClick}>
+        <CardOverflow sx={{p: largeCard ? 1.5 : 1, pb: 0.5, flexGrow: 1}}>
+          {largeCard ? <Typography level='body3' fontWeight='md'>Mod Name</Typography> : null}
+          {attrs.map((attr, index) => (
+            attr ? <ListItem key={index}><Typography level={largeCard ? 'body3' : 'body4'}>{modAttr(attr)} gps</Typography></ListItem> : null
+          ))}
+        </CardOverflow>
+        <CardOverflow variant="soft" sx={{ bgcolor: 'background.level1' }}>
+          <Divider inset="context" />
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mr: '-8px' }}>
+            <Typography level={largeCard ? 'body3' : 'body4'} sx={{ml: largeCard ? undefined : '-4px'}}>lvl{level}</Typography>
+            {deleteIcon}
+          </Box>
+        </CardOverflow>
+      </Card>
     </Box>
   );
-  
-  // return expandedModTile(mod, onTileClick, onDeleteClick);
 };
 
 export default ModTile;
