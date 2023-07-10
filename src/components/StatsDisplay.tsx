@@ -5,10 +5,10 @@ import Card from '@mui/joy/Card';
 import LinearProgress from '@mui/joy/LinearProgress';
 import Box from '@mui/joy/Box';
 import Tooltip from '@mui/joy/Tooltip';
+import Divider from '@mui/joy/Divider';
 
 import { useAppSelector } from '../hooks';
 import { calcGoldRequiredForLevel, calcLevel } from '../game/calc';
-import { Divider } from '@mui/joy';
 
 const levelToopTip = (
   <Box sx={{display: 'flex', flexDirection: 'column'}}>

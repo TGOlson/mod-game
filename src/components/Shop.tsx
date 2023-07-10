@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import Card from '@mui/joy/Card';
 import Button from '@mui/joy/Button';
@@ -6,15 +6,14 @@ import Typography from '@mui/joy/Typography';
 import Divider from '@mui/joy/Divider';
 
 import CasinoOutlinedIcon from '@mui/icons-material/CasinoOutlined';
-import PlusOneIcon from '@mui/icons-material/PlusOne';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
+import Box from '@mui/joy/Box';
+import Tooltip from '@mui/joy/Tooltip';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
 import NewModModal from './NewModModal';
 import { incMaxModActive, openRollModModal, closeRollModModal } from '../slices/game-slice';
 import { calcAdditionalActiveCost, calcModCost } from '../game/calc';
-import GoldIcon from './GoldIcon';
-import { Box, IconButton, Tooltip } from '@mui/joy';
 
 const Shop = () => {
   const dispatch = useAppDispatch();

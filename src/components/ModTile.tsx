@@ -5,13 +5,14 @@ import Card from '@mui/joy/Card';
 import ListItem from '@mui/joy/ListItem';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/joy/IconButton';
-import TollIcon from '@mui/icons-material/Toll';
+import Box from '@mui/joy/Box';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Divider from '@mui/joy/Divider';
+import { SxProps } from '@mui/joy/styles/types';
 
 import { deleteMod, toggleModActive } from '../slices/game-slice';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { Mod, Attribute } from '../game/types';
-import { Box, CardContent, CardOverflow, Divider } from '@mui/joy';
-import { SxProps } from '@mui/joy/styles/types';
 
 
 export type ModProps = {
